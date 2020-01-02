@@ -1,25 +1,18 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import logo from "./logo.svg";
+import "./App.css";
 
-function App() {
+import Home from "./Home";
+import Auth from "./Auth";
+import { Route } from "react-router-dom";
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-        Sign up with slack
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Route exact path="/" component={Home} />
+      <Route path="/auth" component={Auth} />
     </div>
   );
-}
+};
 
 export default App;
