@@ -14,6 +14,11 @@ server.use(express.json());
 server.get('/', (req, res) => {
   return res.json({ message: 'API is up 🚀' });
 });
+server.get('/login', (req , res) => {
+    
+
+
+})
 const PORT = process.env.PORT || 3001
 server.listen(PORT, () => {
     console.log("Server is running")
