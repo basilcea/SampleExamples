@@ -10,7 +10,7 @@ const App = () => {
   return (
     <div>
       <Route exact path="/" component={Home} />
-      <Route path="/auth" component={Auth} />
+      <Route path="/dashboard" component={Auth} />
     </div>
   );
 };
