@@ -1,5 +1,7 @@
-const { GraphQLServer } = require("graphql-yoga");
-const {prisma} = require('./src/generated/prisma-client')
+import { GraphQLServer } from "graphql-yoga";
+import {prisma} from './src/generated/prisma-client';
+import {dotenv} from 'dotenv';
+dotenv.config()
 // let links = [ 
 //   {
 //     id: "link-0",
@@ -70,9 +72,13 @@ const resolvers = {
 // });
 
 const server = new GraphQLServer({
-    typeDefs: "./schema.graphql",
+    typeDefs: "./prisma/generated/prisma.graphql",
     resolvers,
-    context: {prisma}
+    context: request => {
+        return {
+            ...request,
+            prisma}
+        }
   });
 
 server.start(() =>
