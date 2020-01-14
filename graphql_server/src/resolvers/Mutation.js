@@ -1,9 +1,11 @@
 import {generateCookie, verifyToken} from "../utils"
-const signup = async(parent , args , context , info) => {
+import bcrypt from "bcryptjs"
+
+export const signup = async(parent , args , context , info) => {
     const password = await bcrypt.hash(args.password ,10)
     const user = await context.prisma.createUser({...args , password})
-    generateCookie({id:user.id})
-    return {user}
+    generateCookie({id:user.id}, context.request)
+    return user
 
 }
 export const login = async(parent, args ,context , info) => {
@@ -15,6 +17,16 @@ export const login = async(parent, args ,context , info) => {
     if(!valid) {
         throw new Error ('Invalid Password')
     }
-    generateCookie({id:user.id})
-    return {token, user }
+    generateCookie({id:user.id}, context.request)
+    return user
 }
+
+export const post = async(parent , args, context , info) => {
+    const userId = await verifyToken(context.request)
+    return context.prisma.createLink({
+        url: args.url,
+        description:args.description,
+        postedBy: {connect: {id: userId}}
+    })
+}
+

@@ -12,20 +12,17 @@ type Links {
     postedBy: User
     }
 type Mutation {
-    postLink(url: String!, description:String!): Links!
+    post(url: String!, description:String!): Links!
     updateLink(id: ID!, url: String, description:String): Links
-    signup(email: String! , password: String! , name: String!): AuthPayLoad
-    login(email: String!, password:String!); AuthPayload
+    signup(email: String! , password: String! , name: String!): User
+    login(email: String!, password:String!): User
     deleteLink(id: ID!): Links
 
 }
-type AuthPayload{
-    token: String!
-    user: User
-}
+
 type User{
     id: ID!
     name: String!
     email: String!
-    links: [Links!]!
+    links: [Links!]
 }

@@ -1,1 +1,3 @@
-export const feed = (parent, args , context , info) => context.prisma.links()
+const feed = (parent, args , context , info) => context.prisma.links()
+
+export default feed

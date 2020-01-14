@@ -1,7 +1,11 @@
 import { GraphQLServer } from "graphql-yoga";
 import {prisma} from './src/generated/prisma-client';
-import {dotenv} from 'dotenv';
-dotenv.config()
+import Query from './src/resolvers/Query'
+import * as Mutation from './src/resolvers/Mutation'
+import User from './src/resolvers/User'
+import Links from './src/resolvers/Links'
+import CookieParser from 'cookie-parser'
+
 // let links = [ 
 //   {
 //     id: "link-0",
@@ -9,8 +13,8 @@ dotenv.config()
 //     url: "www.howtograpgql.com"
 //   }
 // ];
-// let idCount = links.length;
-const resolvers = {
+// // let idCount = links.length;
+// const resolvers = {
 //   Query: {
 //     info: () => "This is the API of hackernews clone",
 //     feed: () => links,
@@ -44,21 +48,21 @@ const resolvers = {
 //       return deletedLink;
 //     }
 //   }
-    Query:{
-        info:() => "This is the API of HarckerNews clone",
-        feed:(root ,args , context ,info) => {
-            return context.prisma.links()
-        }
-    },
-    Mutation: {
-        postLink: (root ,args , context) => {
-            return context.prisma.createLink({
-                url: args.url,
-                description: args.description
-            })
-        }
-    }
-};
+//     Query:{
+//         info:() => "This is the API of HarckerNews clone",
+//         feed:(root ,args , context ,info) => {
+//             return context.prisma.links()
+//         }
+//     },
+//     Mutation: {
+//         postLink: (root ,args , context) => {
+//             return context.prisma.createLink({
+//                 url: args.url,
+//                 description: args.description
+//             })
+//         }
+//     }
+// };
 // Link:{
 //     id:(parent) => parent.id,
 //     description:(parent) => parent.description,
@@ -71,8 +75,15 @@ const resolvers = {
 //   resolvers,
 // });
 
+const resolvers = {
+    Query,
+    Mutation,
+    User,
+    Links
+  }
+  
 const server = new GraphQLServer({
-    typeDefs: "./prisma/generated/prisma.graphql",
+    typeDefs: "schema.graphql",
     resolvers,
     context: request => {
         return {
@@ -80,7 +91,7 @@ const server = new GraphQLServer({
             prisma}
         }
   });
-
+server.use(CookieParser())
 server.start(() =>
   console.log("GraphQl Server is running on the http://localhost:4000")
 );
