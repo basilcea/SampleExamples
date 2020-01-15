@@ -4,6 +4,7 @@ import Query from './src/resolvers/Query'
 import * as Mutation from './src/resolvers/Mutation'
 import User from './src/resolvers/User'
 import Links from './src/resolvers/Links'
+import Subscription from "./src/resolvers/Subscription"
 import CookieParser from 'cookie-parser'
 
 // let links = [ 
@@ -78,8 +79,10 @@ import CookieParser from 'cookie-parser'
 const resolvers = {
     Query,
     Mutation,
+    Subscription,
     User,
-    Links
+    Links,
+
   }
   
 const server = new GraphQLServer({

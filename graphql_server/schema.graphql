@@ -19,10 +19,12 @@ type Mutation {
     deleteLink(id: ID!): Links
 
 }
-
 type User{
     id: ID!
     name: String!
     email: String!
     links: [Links!]
+}
+type Subscription {
+  newLink: Links
 }
