@@ -2,9 +2,10 @@ import { GraphQLServer } from "graphql-yoga";
 import {prisma} from './src/generated/prisma-client';
 import Query from './src/resolvers/Query'
 import * as Mutation from './src/resolvers/Mutation'
-import User from './src/resolvers/User'
-import Links from './src/resolvers/Links'
-import Subscription from "./src/resolvers/Subscription"
+import * as User from './src/resolvers/User'
+import * as Link from './src/resolvers/Links'
+import * as Vote from './src/resolvers/Vote'
+import * as Subscription from "./src/resolvers/Subscription"
 import CookieParser from 'cookie-parser'
 
 // let links = [ 
@@ -81,7 +82,8 @@ const resolvers = {
     Mutation,
     Subscription,
     User,
-    Links,
+    Link,
+    Vote,
 
   }
   

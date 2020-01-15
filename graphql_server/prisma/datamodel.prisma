@@ -14,3 +14,9 @@ type User {
   links: [Link!]!
 }
 
+type Vote {
+  id: ID! @id
+  link: Link!
+  user: User!
+}
+

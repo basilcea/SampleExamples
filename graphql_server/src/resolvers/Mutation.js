@@ -30,3 +30,20 @@ export const post = async(parent , args, context , info) => {
     })
 }
 
+export const vote = async(parent , args ,context) => {
+    const userId = await verifyToken(context.request)
+    // check if user has not voted for the link
+    const userHasVoted = await context.prisma.$exists.vote({
+        user: {id :userId},
+        link:{id :args.linkId},
+    })
+    if(userHasVoted) {
+        const votedLink = context.prisma.link({id: args.linkId}).url()
+        throw new Error (`Already voted for ${votedLink}`)
+    }
+    return context.prisma.createVote({
+        user: { connect: { id: userId } },
+        link: { connect: { id: args.linkId } },
+      })
+}
+
