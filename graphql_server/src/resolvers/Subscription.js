@@ -1,10 +1,21 @@
-const newLinkSubscribe =(parent , args , context , info) => {
+
+
+const newLinkSubscribe =(parent , args , context) => {
         return context.prisma.$subscribe.link({mutation_in: ['CREATED']}).node()
 }
-const newLink = {
-    subscribe : newLinkSubscribe,
+const newVoteSubscribe = (parent , args , context ) => {
+    return context.prisma.$subscribe.vote({mutation_in: ['CREATED']}).node()
+}
+export const newLink = {
+    subscribe: newLinkSubscribe,
     resolve: payload => {
         return payload
     }
 }
-export default newLink
+export const newVote = {
+    subscribe: newVoteSubscribe,
+    resolve: payload => {
+        return payload
+    }
+}
+  
