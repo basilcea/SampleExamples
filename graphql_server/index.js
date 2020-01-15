@@ -7,6 +7,7 @@ import * as Link from './src/resolvers/Links'
 import * as Vote from './src/resolvers/Vote'
 import * as Subscription from "./src/resolvers/Subscription"
 import CookieParser from 'cookie-parser'
+import cors from 'cors'
 
 // let links = [ 
 //   {
@@ -96,6 +97,13 @@ const server = new GraphQLServer({
             prisma}
         }
   });
+server.use(cors(
+  {
+    origin: [
+      `${process.env.FRONT_URL}`
+    ],
+    credentials: true
+}))
 server.use(CookieParser())
 server.start(() =>
   console.log("GraphQl Server is running on the http://localhost:4000")
