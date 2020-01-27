@@ -1,8 +1,24 @@
 import jwt from 'jsonwebtoken'
-import dotenv from 'dotenv';
 
-dotenv.config() 
+
 export const AppSecret = process.env.APP_SECRET
+
+export const generateCookies = (args, context) => {
+    const token = jwt.sign({userId: args.id}, AppSecret)
+    const auth = context.res.cookie('token', token, {
+        expires: new Date(Date.now() + 604800000),
+        secure: false,
+        httpOnly: true
+    })
+    return auth
+}
+export const generateCsrf = (context) => {
+    const surf = context.res.cookie('XSRF-TOKEN', context.request.csrfToken() )
+    if (surf.err.code !== 'EBADCSRFTOKEN') {
+        throw new Error ('CSRF ERROR')
+    }
+    return surf
+}
 
 export const verifyToken = (context) => {
    const tokenString = context.headers.cookies.split(';')[0]
@@ -13,12 +29,5 @@ export const verifyToken = (context) => {
     }
     throw new Error ('Not Authenticated')
 }
-export const generateCookies = (args, context) => {
-    const token = jwt.sign({userId: args.id}, AppSecret)
-    const auth = context.res.cookie('token', token, {
-        expires: new Date(Date.now() + 604800000),
-        secure: false,
-        httpOnly: true
-    })
-    return auth
-}
+
+

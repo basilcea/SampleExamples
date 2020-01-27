@@ -7,7 +7,8 @@ import * as Link from './src/resolvers/Links'
 import * as Vote from './src/resolvers/Vote'
 import * as Subscription from "./src/resolvers/Subscription"
 import CookieParser from 'cookie-parser'
-import cors from 'cors'
+import cors from 'cors';
+import {crsfProtection} from './src/middleware'
 
 // let links = [ 
 //   {
@@ -77,6 +78,7 @@ import cors from 'cors'
 //   typeDefs: "./schema.graphql",
 //   resolvers,
 // });
+const crsfProtection = csurf({cookie:true})
 
 const resolvers = {
     Query,
@@ -95,7 +97,8 @@ const server = new GraphQLServer({
         return {
             ...request,
             prisma}
-        }
+        },
+    middlewares:[crsfProtection]
   });
 server.use(cors(
   {
