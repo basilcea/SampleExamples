@@ -1,4 +1,4 @@
-const feed = async(parent, args , context , info) => {
+export const feed = async(parent, args , context , info) => {
     const where = args.filter ? {
         OR: [
             { description_contains: args.filter },
@@ -13,5 +13,3 @@ orderBy: args.orderBy
 const count = await context.prisma.linksConnection({where}).aggregate().count()
 return {links , count}
 }
-
-export default feed

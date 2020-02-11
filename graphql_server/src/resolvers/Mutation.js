@@ -17,7 +17,8 @@ export const login = async(parent, args ,context , info) => {
     if(!valid) {
         throw new Error ('Invalid Password')
     }
-    generateCookie({id:user.id}, context.request)
+   const auth = generateCookie({id:user.id}, context.request)
+    console.log(auth)
     return user
 }
 
